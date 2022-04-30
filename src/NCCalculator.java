@@ -1,21 +1,55 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.time.Duration;
 import java.time.Instant;
 
 public class NCCalculator {
-	private int reactorLength;
-	private int reactorWidth;
-	private int reactorHeight;
+	private int reactorLength; // row
+	private int reactorWidth; // col
+	private int reactorHeight; // layer
 
-	private static String confirmation = "n";
-	
+	private ArrayList<ArrayList<ArrayList<Block>>> reactor;
+
 	public NCCalculator() {
-		
+		super();
+	}
+
+	public void calculate() {
+		reactor = calculatorHelper.fillInitialReactor(reactor, reactorLength, reactorWidth, reactorHeight);
+		printReactor();
+	}
+
+	public void printReactor() {
+		int layer = 1;
+		for (ArrayList<ArrayList<Block>> threed : reactor) {
+			System.out.println("Layer: " + layer);
+
+			for (ArrayList<Block> twod : threed) {
+
+				System.out.print("[");
+				for (Block block : twod) {
+
+					if (block == null) {
+						System.out.print(" -");
+					}
+					else {
+						System.out.print(" " + block.getChar());
+					}
+
+				}
+				System.out.println(" ]");
+
+			}
+			layer++;
+			System.out.println();
+
+		}
 	}
 	
-	public void calculate() {
-		
+	public Block getBlock(int row, int col, int layer) {
+		return reactor.get(layer).get(row).get(col);
 	}
+	
 
 	public static void main(String[] args) {
 		NCCalculator c = new NCCalculator();
@@ -37,12 +71,12 @@ public class NCCalculator {
 			e.printStackTrace();
 		}
 		System.out.println("We currently have your reactor as a " + c.reactorLength + "x" + c.reactorWidth + "x" + c.reactorHeight + " reactor");
-		
+
 		System.out.println("Beginning calculations...");
 		long start1 = System.currentTimeMillis();
 		c.calculate();
 		long end1 = System.currentTimeMillis();
-		System.out.println("Elapsed Time in milli seconds: " + (start1-end1));
+		System.out.println("Elapsed Time in milli seconds: " + (end1-start1));
 	}
 
 }
