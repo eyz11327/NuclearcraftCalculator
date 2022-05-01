@@ -1,9 +1,9 @@
 
-public class Casing extends Block {
-	
-	public Casing(char blockChar, int row, int col, int layer) {
+public class Empty extends Block {
+
+	public Empty(char blockChar, int row, int col, int layer) {
 		super(blockChar, row, col, layer);
-		super.setCellType(CellType.CASING);
+		super.setCellType(CellType.EMPTY);
 	}
 
 	@Override
@@ -15,5 +15,4 @@ public class Casing extends Block {
 	public boolean checkComplete() {
 		return true;
 	}
-
 }

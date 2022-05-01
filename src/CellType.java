@@ -1,19 +1,21 @@
 
 public enum CellType {
-	WATER,
-	TIN,
-	REDSTONE,
-	QUARTZ,
-	MAGNESIUM,
-	LAPIS,
-	IRON,
-	HELIUM,
-	GOLD,
+	WATER,		// W
+	TIN,		// T
+	REDSTONE,	// R
+	QUARTZ,		// Q
+	MAGNESIUM,	// M
+	LAPIS,		// L
+	IRON,		// I
+	HELIUM,		// H
+	GOLD,		// G
 	GLOWSTONE,
-	ENDERIUM,
+	ENDERIUM,	// E
+	EMPTY,		// -
 	EMERALD,
-	DIAMOND,
-	CRYOTHEUM,
+	DIAMOND,	// D
+	CRYOTHEUM,	// C
 	COPPER,
+	CELL,
 	CASING;
 }

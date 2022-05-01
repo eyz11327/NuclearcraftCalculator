@@ -8,14 +8,14 @@ public class NCCalculator {
 	private int reactorWidth; // col
 	private int reactorHeight; // layer
 
-	private ArrayList<ArrayList<ArrayList<Block>>> reactor;
+	private static ArrayList<ArrayList<ArrayList<Block>>> reactor;
 
 	public NCCalculator() {
 		super();
 	}
 
 	public void calculate() {
-		reactor = calculatorHelper.fillInitialReactor(reactor, reactorLength, reactorWidth, reactorHeight);
+		reactor = calculatorHelper.fillInitialReactor(reactorLength, reactorWidth, reactorHeight);
 		printReactor();
 	}
 
@@ -46,9 +46,10 @@ public class NCCalculator {
 		}
 	}
 	
-	public Block getBlock(int row, int col, int layer) {
+	public static Block getBlock(int row, int col, int layer) {
 		return reactor.get(layer).get(row).get(col);
 	}
+
 	
 
 	public static void main(String[] args) {

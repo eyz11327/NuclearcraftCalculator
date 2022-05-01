@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class calculatorHelper {
 
-	public static ArrayList<ArrayList<ArrayList<Block>>> fillInitialReactor(ArrayList<ArrayList<ArrayList<Block>>> reactor, int row, int col, int layer) {
+	public static ArrayList<ArrayList<ArrayList<Block>>> fillInitialReactor(int row, int col, int layer) {
 		ArrayList<ArrayList<ArrayList<Block>>> current3d = new ArrayList<ArrayList<ArrayList<Block>>>();
 		
 		for (int i = 0; i < layer; i++) {
@@ -51,6 +51,39 @@ public class calculatorHelper {
 		
 		return current3d;
 		
+	}
+
+	
+	public static boolean checkReactorValidity(ArrayList<ArrayList<ArrayList<Block>>> reactor) {
+		boolean valid = true;
+		
+		for (ArrayList<ArrayList<Block>> layer : reactor) {
+			for (ArrayList<Block> row : layer) {
+				for (Block block : row) {
+					if (block == null) {
+						valid = false;
+					}
+				}
+			}
+		}
+		
+		return valid;
+	}
+	
+	public static boolean checkReactorCompleteness(ArrayList<ArrayList<ArrayList<Block>>> reactor) {
+		boolean complete = true;
+		
+		for (ArrayList<ArrayList<Block>> layer : reactor) {
+			for (ArrayList<Block> row : layer) {
+				for (Block block : row) {
+					if (block == null) {
+						complete = false;
+					}
+				}
+			}
+		}
+		
+		return complete;
 	}
 
 }

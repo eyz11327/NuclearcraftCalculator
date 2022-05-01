@@ -16,7 +16,8 @@ public abstract class Block {
 
 	
 	abstract public boolean checkIsValid();
-
+	
+	abstract public boolean checkComplete();
 
 	public char getChar() {
 		return blockChar;
