@@ -54,6 +54,34 @@ public class calculatorHelper {
 	}
 
 	
+	
+	public static void printReactor(ArrayList<ArrayList<ArrayList<Block>>> reactor) {
+		int layer = 1;
+		for (ArrayList<ArrayList<Block>> threeD : reactor) {
+			System.out.println("Layer: " + layer);
+
+			for (ArrayList<Block> twoD : threeD) {
+
+				System.out.print("[");
+				for (Block block : twoD) {
+
+					if (block == null) {
+						System.out.print(" -");
+					}
+					else {
+						System.out.print(" " + block.getChar());
+					}
+
+				}
+				System.out.println(" ]");
+
+			}
+			layer++;
+			System.out.println();
+
+		}
+	}
+	
 	public static boolean checkReactorValidity(ArrayList<ArrayList<ArrayList<Block>>> reactor) {
 		boolean valid = true;
 		
