@@ -6,7 +6,7 @@ public class calculatorHelper{
 
 	public static int iterations = 0;
 	
-	public static Set<ArrayList<ArrayList<ArrayList<Block>>>> validReactors = new HashSet<ArrayList<ArrayList<ArrayList<Block>>>>();
+	public static Set<String> validReactors = new HashSet<String>();
 	
 	// Create the initial reactor with walls filling the bottom and top layers, along with encompassing an empty center on the inner layers.
 	public static ArrayList<ArrayList<ArrayList<Block>>> fillInitialReactor(int row, int col, int layer) {
@@ -69,7 +69,8 @@ public class calculatorHelper{
 		
 		// base case returns valid reactors
 		if (checkReactorValidity(reactor)) {
-			validReactors.add(reactor);
+
+			validReactors.add(reactorToString(reactor));
 			return reactor;
 		}
 		

@@ -71,10 +71,10 @@ public class NCCalculator {
 	    StringBuilder outputString = new StringBuilder();
 	    int reactorNumber = 1;
         
-		for (ArrayList<ArrayList<ArrayList<Block>>> reactor : calculatorHelper.validReactors) {
+		for (String reactor : calculatorHelper.validReactors) {
             // Step 2: Write into the file
 			
-			outputString.append("Reactor #" + reactorNumber + "\n" + calculatorHelper.reactorToString(reactor) + "\n\n");
+			outputString.append("Reactor #" + reactorNumber + "\n" + reactor + "\n\n");
 			reactorNumber++;
 		}
 		
