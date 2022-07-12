@@ -60,10 +60,10 @@ public class NCCalculator {
 		long start1 = System.currentTimeMillis();
 		c.calculate();
 		long end1 = System.currentTimeMillis();
-		System.out.println("Elapsed Time in milli seconds: " + (end1-start1));
-		System.out.println("Total iterations calculated: " + calculatorHelper.iterations);
+		System.out.println("Elapsed Time in milli seconds: " + calculatorHelper.myFormat.format((end1-start1)));
+		System.out.println("Total iterations calculated: " + calculatorHelper.myFormat.format(calculatorHelper.iterations));
 		
-		System.out.println("Valid Reactors: " + calculatorHelper.validReactors.size());
+		System.out.println("Valid Reactors: " + calculatorHelper.myFormat.format(calculatorHelper.validReactors.size()));
 		
 		FileOutputStream outputStream = null;
         // Step 1:  Create an object of FileOutputStream

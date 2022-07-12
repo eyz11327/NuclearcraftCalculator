@@ -1,3 +1,4 @@
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -5,9 +6,9 @@ import java.util.Set;
 public class calculatorHelper{
 
 	public static int iterations = 0;
-	
 	public static Set<String> validReactors = new HashSet<String>();
-	
+	public static NumberFormat myFormat = NumberFormat.getInstance();
+
 	// Create the initial reactor with walls filling the bottom and top layers, along with encompassing an empty center on the inner layers.
 	public static ArrayList<ArrayList<ArrayList<Block>>> fillInitialReactor(int row, int col, int layer) {
 		ArrayList<ArrayList<ArrayList<Block>>> current3d = new ArrayList<ArrayList<ArrayList<Block>>>();
@@ -64,7 +65,7 @@ public class calculatorHelper{
 		
 		iterations++;
 		if (iterations % 5000000 == 0) {
-			System.out.println(iterations + " iterations");
+			System.out.println(myFormat.format(iterations) + " iterations");
 		}
 		
 		// base case returns valid reactors
