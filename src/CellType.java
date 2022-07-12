@@ -9,13 +9,13 @@ public enum CellType {
 	IRON,		// I
 	HELIUM,		// H
 	GOLD,		// G
-	GLOWSTONE,
+	GLOWSTONE,	// S
 	ENDERIUM,	// E
 	EMPTY,		// ' ' (space)
-	EMERALD,
+	EMERALD,	// ^
 	DIAMOND,	// D
 	CRYOTHEUM,	// C
-	COPPER,
-	CELL,
+	COPPER,		// U
+	CELL,		// O
 	CASING;		// |
 }

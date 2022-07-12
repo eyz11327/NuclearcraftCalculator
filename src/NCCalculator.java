@@ -1,7 +1,11 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.time.Duration;
-import java.time.Instant;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class NCCalculator {
 	private int reactorLength; // row
@@ -16,8 +20,8 @@ public class NCCalculator {
 
 	public void calculate() {
 		reactor = calculatorHelper.fillInitialReactor(reactorLength, reactorWidth, reactorHeight);
-		calculatorHelper.findPossibleReactors(reactor, 1, 0, 1, reactorLength - 2, reactorWidth - 2, reactorHeight - 2);
 		calculatorHelper.printReactor(reactor);
+		calculatorHelper.findPossibleReactors(reactor, 1, 0, 1, reactorLength - 2, reactorWidth - 2, reactorHeight - 2);
 	}
 
 	
@@ -26,7 +30,7 @@ public class NCCalculator {
 		return reactor.get(layer).get(row).get(col);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		NCCalculator c = new NCCalculator();
 		System.out.println("Welcome to the reactor configuration calculator for NuclearCraft, specifically in the Enigmatica 2 Expert modpack!");
 		System.out.println("We highly recommend making your reactor a cube (ex. 10x10x10, 8x8x8, 24x24x24).");
@@ -59,11 +63,34 @@ public class NCCalculator {
 		System.out.println("Elapsed Time in milli seconds: " + (end1-start1));
 		System.out.println("Total iterations calculated: " + calculatorHelper.iterations);
 		
-		System.out.println("Valid Reactors: ");
+		System.out.println("Valid Reactors: " + calculatorHelper.validReactors.size());
 		
+		FileOutputStream outputStream = null;
+        // Step 1:  Create an object of FileOutputStream
+        outputStream = new FileOutputStream("validReactors.txt");
+	    StringBuilder outputString = new StringBuilder();
+	    int reactorNumber = 1;
+        
 		for (ArrayList<ArrayList<ArrayList<Block>>> reactor : calculatorHelper.validReactors) {
-			calculatorHelper.printReactor(reactor);
+            // Step 2: Write into the file
+			
+			outputString.append("Reactor #" + reactorNumber + "\n" + calculatorHelper.reactorToString(reactor) + "\n\n");
+			reactorNumber++;
 		}
-	}
+		
+        outputStream.write(outputString.toString().getBytes());
 
+        // Step 3: Close the object
+        if (outputStream != null) {
+            // Second try catch block ensures that the file is closed even if an error occurs
+	        try {
+	            // Closing the file connections if no exception has occurred
+	            outputStream.close();
+	        }
+	        catch (IOException e) {
+	            // Display exceptions if occurred
+	            System.out.print(e.getMessage());
+	        }
+        }
+	}
 }

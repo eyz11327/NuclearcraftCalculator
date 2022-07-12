@@ -1,10 +1,12 @@
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
-public class calculatorHelper extends Thread{
+public class calculatorHelper{
 
 	public static int iterations = 0;
 	
-	public static ArrayList<ArrayList<ArrayList<ArrayList<Block>>>> validReactors = new ArrayList<ArrayList<ArrayList<ArrayList<Block>>>>();
+	public static Set<ArrayList<ArrayList<ArrayList<Block>>>> validReactors = new HashSet<ArrayList<ArrayList<ArrayList<Block>>>>();
 	
 	// Create the initial reactor with walls filling the bottom and top layers, along with encompassing an empty center on the inner layers.
 	public static ArrayList<ArrayList<ArrayList<Block>>> fillInitialReactor(int row, int col, int layer) {
@@ -59,40 +61,28 @@ public class calculatorHelper extends Thread{
 	}
 
 	public static ArrayList<ArrayList<ArrayList<Block>>> findPossibleReactors(ArrayList<ArrayList<ArrayList<Block>>> reactor, int row, int col, int layer, int internalRowSize, int internalColSize, int internalLayerSize){
+		
+		iterations++;
+		if (iterations % 5000000 == 0) {
+			System.out.println(iterations + " iterations");
+		}
+		
 		// base case returns valid reactors
 		if (checkReactorValidity(reactor)) {
-			System.out.println("Valid reactor found!");
 			validReactors.add(reactor);
 			return reactor;
 		}
 		
-//		if (iterations != 0) {
-//			System.out.println("This reactor was invalid, trying all combinations from here...");
-//			System.out.println();
-//		}
-		
 		if (!checkReactorCompleteness(reactor)) {
-			iterations++;
-			
 			if (col + 1 <= internalColSize) {
-				//System.out.println("Testing with a new water cooler");
+				
 				reactor.get(layer).get(row).set(col + 1, new Water('W', row, col + 1, layer)); 
-//				printReactor(reactor);
-//		        try {
-//		        	Thread.sleep(500); // sleep/stop a thread for 1 second
-//		        } catch(InterruptedException e) {
-//		        	System.out.println("An Excetion occured: " + e);
-//		        }
 				findPossibleReactors(reactor, row, col + 1, layer, internalRowSize, internalColSize, internalLayerSize);
 				
-				//System.out.println("Testing with an empty cell");
+				reactor.get(layer).get(row).set(col + 1, new Cell('O', row, col + 1, layer)); 
+				findPossibleReactors(reactor, row, col + 1, layer, internalRowSize, internalColSize, internalLayerSize);
+				
 				reactor.get(layer).get(row).set(col + 1, new Empty(' ', row, col + 1, layer)); 
-//				printReactor(reactor);
-//		        try {
-//		        	Thread.sleep(500); // sleep/stop a thread for 1 second
-//		        } catch(InterruptedException e) {
-//		        	System.out.println("An Excetion occured: " + e);
-//		        }
 				findPossibleReactors(reactor, row, col + 1, layer, internalRowSize, internalColSize, internalLayerSize);
 				
 				// reset cell back to null if it didn't work
@@ -101,24 +91,13 @@ public class calculatorHelper extends Thread{
 			else if (row + 1 <= internalRowSize) {
 				col = 1; // reset column to restart left to right
 				
-				//System.out.println("Testing with a new water cooler");
 				reactor.get(layer).get(row + 1).set(col, new Water('W', row + 1, col, layer)); 
-//				printReactor(reactor);
-//		        try {
-//		        	Thread.sleep(500); // sleep/stop a thread for 1 second
-//		        } catch(InterruptedException e) {
-//		        	System.out.println("An Excetion occured: " + e);
-//		        }
 				findPossibleReactors(reactor, row + 1, col, layer, internalRowSize, internalColSize, internalLayerSize);
 				
-				//System.out.println("Testing with an empty cell");
+				reactor.get(layer).get(row + 1).set(col, new Cell('O', row + 1, col, layer)); 
+				findPossibleReactors(reactor, row + 1, col, layer, internalRowSize, internalColSize, internalLayerSize);
+				
 				reactor.get(layer).get(row + 1).set(col, new Empty(' ', row + 1, col, layer)); 
-//				printReactor(reactor);
-//		        try {
-//		        	Thread.sleep(500); // sleep/stop a thread for 1 second
-//		        } catch(InterruptedException e) {
-//		        	System.out.println("An Excetion occured: " + e);
-//		        }
 				findPossibleReactors(reactor, row + 1, col, layer, internalRowSize, internalColSize, internalLayerSize);
 				
 				// reset cell back to null if it didn't work
@@ -128,24 +107,13 @@ public class calculatorHelper extends Thread{
 				// reset row and column to restart left to right and top to bottom
 				row = col = 1;
 
-				//System.out.println("Testing with a new water cooler");
 				reactor.get(layer + 1).get(row).set(col, new Water('W', row, col, layer + 1)); 
-//				printReactor(reactor);
-//		        try {
-//		        	Thread.sleep(500); // sleep/stop a thread for 1 second
-//		        } catch(InterruptedException e) {
-//		        	System.out.println("An Excetion occured: " + e);
-//		        }
 				findPossibleReactors(reactor, row, col, layer + 1, internalRowSize, internalColSize, internalLayerSize);
 				
-				//System.out.println("Testing with an empty cell");
+				reactor.get(layer + 1).get(row).set(col, new Cell('O', row, col, layer + 1)); 
+				findPossibleReactors(reactor, row, col, layer + 1, internalRowSize, internalColSize, internalLayerSize);
+				
 				reactor.get(layer + 1).get(row).set(col, new Empty(' ', row, col, layer + 1)); 
-//				printReactor(reactor);
-//		        try {
-//		        	Thread.sleep(500); // sleep/stop a thread for 1 second
-//		        } catch(InterruptedException e) {
-//		        	System.out.println("An Excetion occured: " + e);
-//		        }
 				findPossibleReactors(reactor, row, col, layer + 1, internalRowSize, internalColSize, internalLayerSize);
 				
 				// reset cell back to null if it didn't work
@@ -180,6 +148,35 @@ public class calculatorHelper extends Thread{
 			System.out.println();
 
 		}
+	}
+	
+	public static String reactorToString(ArrayList<ArrayList<ArrayList<Block>>> reactor) {
+	    StringBuilder reactorString = new StringBuilder();
+
+		int layer = 1;		
+		for (ArrayList<ArrayList<Block>> threeD : reactor) {
+			
+			reactorString.append("Layer:" + layer + "\n");
+
+			for (ArrayList<Block> twoD : threeD) {
+
+				reactorString.append("[");
+				for (Block block : twoD) {
+
+					if (block == null) {
+						reactorString.append(" -");
+					}
+					else {
+						reactorString.append(" " + block.getChar());
+					}
+
+				}
+				reactorString.append(" ]" + "\n");
+
+			}
+			layer++;
+		}
+		return reactorString.toString();
 	}
 	
 	public static boolean checkReactorValidity(ArrayList<ArrayList<ArrayList<Block>>> reactor) {
