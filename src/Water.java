@@ -32,21 +32,15 @@ public class Water extends Block {
 
 	@Override
 	public boolean checkComplete() {
-		// if the current cell is valid, then it must be complete
-		if (this.checkIsValid() == true) {
-			return true;
-		}
-		
-		// check if there are any open spots
-		else if ((NCCalculator.getBlock(getRow()+1, getCol(), getLayer()).getCellType() == null) || (NCCalculator.getBlock(getRow()-1, getCol(), getLayer()).getCellType() == null) || (NCCalculator.getBlock(getRow(), getCol()+1, getLayer()).getCellType() == null) || (NCCalculator.getBlock(getRow(), getCol()-1, getLayer()).getCellType() == null) || (NCCalculator.getBlock(getRow(), getCol(), getLayer()+1).getCellType() == null) || (NCCalculator.getBlock(getRow(), getCol(), getLayer()-1).getCellType() == null)){
-			return false;
-		}
-		
 		// check all adjacent cells and see if they are no open spots
-		else if ((NCCalculator.getBlock(getRow()+1, getCol(), getLayer()).getCellType() != null) && (NCCalculator.getBlock(getRow()-1, getCol(), getLayer()).getCellType() != null) && (NCCalculator.getBlock(getRow(), getCol()+1, getLayer()).getCellType() != null) && (NCCalculator.getBlock(getRow(), getCol()-1, getLayer()).getCellType() != null) && (NCCalculator.getBlock(getRow(), getCol(), getLayer()+1).getCellType() != null) && (NCCalculator.getBlock(getRow(), getCol(), getLayer()-1).getCellType() != null)){
-			return true;
+		if ((NCCalculator.getBlock(getRow()+1, getCol(), getLayer()) != null) && (NCCalculator.getBlock(getRow()-1, getCol(), getLayer()) != null) && (NCCalculator.getBlock(getRow(), getCol()+1, getLayer()) != null) && (NCCalculator.getBlock(getRow(), getCol()-1, getLayer()) != null) && (NCCalculator.getBlock(getRow(), getCol(), getLayer()+1) != null) && (NCCalculator.getBlock(getRow(), getCol(), getLayer()-1) != null)){
+			
+			// If there are no open spots (nulls), then check if the cell is valid
+			if (this.checkIsValid()) {
+				return true;
+			}		
+			
 		}
-
 		
 		return false;
 	}

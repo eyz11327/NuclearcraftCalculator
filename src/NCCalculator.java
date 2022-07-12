@@ -58,6 +58,12 @@ public class NCCalculator {
 		long end1 = System.currentTimeMillis();
 		System.out.println("Elapsed Time in milli seconds: " + (end1-start1));
 		System.out.println("Total iterations calculated: " + calculatorHelper.iterations);
+		
+		System.out.println("Valid Reactors: ");
+		
+		for (ArrayList<ArrayList<ArrayList<Block>>> reactor : calculatorHelper.validReactors) {
+			calculatorHelper.printReactor(reactor);
+		}
 	}
 
 }

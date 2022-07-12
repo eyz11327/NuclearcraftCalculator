@@ -1,8 +1,10 @@
 import java.util.ArrayList;
 
-public class calculatorHelper {
+public class calculatorHelper extends Thread{
 
 	public static int iterations = 0;
+	
+	public static ArrayList<ArrayList<ArrayList<ArrayList<Block>>>> validReactors = new ArrayList<ArrayList<ArrayList<ArrayList<Block>>>>();
 	
 	// Create the initial reactor with walls filling the bottom and top layers, along with encompassing an empty center on the inner layers.
 	public static ArrayList<ArrayList<ArrayList<Block>>> fillInitialReactor(int row, int col, int layer) {
@@ -60,60 +62,95 @@ public class calculatorHelper {
 		// base case returns valid reactors
 		if (checkReactorValidity(reactor)) {
 			System.out.println("Valid reactor found!");
-			printReactor(reactor);
-			
+			validReactors.add(reactor);
 			return reactor;
 		}
 		
-		if (iterations != 0) {
-			System.out.println("This reactor was invalid, trying all combinations from here...");
-			System.out.println();
-		}
+//		if (iterations != 0) {
+//			System.out.println("This reactor was invalid, trying all combinations from here...");
+//			System.out.println();
+//		}
 		
-		ArrayList<ArrayList<ArrayList<Block>>> recursiveReactor = reactor;
 		if (!checkReactorCompleteness(reactor)) {
 			iterations++;
 			
-			// columns +1 -> rows +1 -> layers +1
 			if (col + 1 <= internalColSize) {
-				System.out.println("Testing with a new water cooler");
-				recursiveReactor.get(layer).get(row).set(col + 1, new Water('W', row, col + 1, layer)); 
-				printReactor(recursiveReactor);
-				findPossibleReactors(recursiveReactor, row, col + 1, layer, internalRowSize, internalColSize, internalLayerSize);
+				//System.out.println("Testing with a new water cooler");
+				reactor.get(layer).get(row).set(col + 1, new Water('W', row, col + 1, layer)); 
+//				printReactor(reactor);
+//		        try {
+//		        	Thread.sleep(500); // sleep/stop a thread for 1 second
+//		        } catch(InterruptedException e) {
+//		        	System.out.println("An Excetion occured: " + e);
+//		        }
+				findPossibleReactors(reactor, row, col + 1, layer, internalRowSize, internalColSize, internalLayerSize);
 				
-				System.out.println("Testing with an empty cell");
-				recursiveReactor.get(layer).get(row).set(col + 1, new Empty(' ', row, col + 1, layer)); 
-				printReactor(recursiveReactor);
-				findPossibleReactors(recursiveReactor, row, col + 1, layer, internalRowSize, internalColSize, internalLayerSize);
+				//System.out.println("Testing with an empty cell");
+				reactor.get(layer).get(row).set(col + 1, new Empty(' ', row, col + 1, layer)); 
+//				printReactor(reactor);
+//		        try {
+//		        	Thread.sleep(500); // sleep/stop a thread for 1 second
+//		        } catch(InterruptedException e) {
+//		        	System.out.println("An Excetion occured: " + e);
+//		        }
+				findPossibleReactors(reactor, row, col + 1, layer, internalRowSize, internalColSize, internalLayerSize);
+				
+				// reset cell back to null if it didn't work
+				reactor.get(layer).get(row).set(col + 1, null); 
 			}
 			else if (row + 1 <= internalRowSize) {
 				col = 1; // reset column to restart left to right
 				
-				System.out.println("Testing with a new water cooler");
-				recursiveReactor.get(layer).get(row + 1).set(col, new Water('W', row + 1, col, layer)); 
-				printReactor(recursiveReactor);
-				findPossibleReactors(recursiveReactor, row + 1, col, layer, internalRowSize, internalColSize, internalLayerSize);
+				//System.out.println("Testing with a new water cooler");
+				reactor.get(layer).get(row + 1).set(col, new Water('W', row + 1, col, layer)); 
+//				printReactor(reactor);
+//		        try {
+//		        	Thread.sleep(500); // sleep/stop a thread for 1 second
+//		        } catch(InterruptedException e) {
+//		        	System.out.println("An Excetion occured: " + e);
+//		        }
+				findPossibleReactors(reactor, row + 1, col, layer, internalRowSize, internalColSize, internalLayerSize);
 				
-				System.out.println("Testing with an empty cell");
-				recursiveReactor.get(layer).get(row + 1).set(col, new Empty(' ', row + 1, col, layer)); 
-				printReactor(recursiveReactor);
-				findPossibleReactors(recursiveReactor, row + 1, col, layer, internalRowSize, internalColSize, internalLayerSize);
+				//System.out.println("Testing with an empty cell");
+				reactor.get(layer).get(row + 1).set(col, new Empty(' ', row + 1, col, layer)); 
+//				printReactor(reactor);
+//		        try {
+//		        	Thread.sleep(500); // sleep/stop a thread for 1 second
+//		        } catch(InterruptedException e) {
+//		        	System.out.println("An Excetion occured: " + e);
+//		        }
+				findPossibleReactors(reactor, row + 1, col, layer, internalRowSize, internalColSize, internalLayerSize);
+				
+				// reset cell back to null if it didn't work
+				reactor.get(layer).get(row + 1).set(col, null); 
 			}
 			else {
 				// reset row and column to restart left to right and top to bottom
 				row = col = 1;
 
-				System.out.println("Testing with a new water cooler");
-				recursiveReactor.get(layer + 1).get(row).set(col, new Water('W', row, col, layer + 1)); 
-				printReactor(recursiveReactor);
-				findPossibleReactors(recursiveReactor, row, col, layer + 1, internalRowSize, internalColSize, internalLayerSize);
+				//System.out.println("Testing with a new water cooler");
+				reactor.get(layer + 1).get(row).set(col, new Water('W', row, col, layer + 1)); 
+//				printReactor(reactor);
+//		        try {
+//		        	Thread.sleep(500); // sleep/stop a thread for 1 second
+//		        } catch(InterruptedException e) {
+//		        	System.out.println("An Excetion occured: " + e);
+//		        }
+				findPossibleReactors(reactor, row, col, layer + 1, internalRowSize, internalColSize, internalLayerSize);
 				
-				System.out.println("Testing with an empty cell");
-				recursiveReactor.get(layer + 1).get(row).set(col, new Empty(' ', row, col, layer + 1)); 
-				printReactor(recursiveReactor);
-				findPossibleReactors(recursiveReactor, row, col, layer + 1, internalRowSize, internalColSize, internalLayerSize);
+				//System.out.println("Testing with an empty cell");
+				reactor.get(layer + 1).get(row).set(col, new Empty(' ', row, col, layer + 1)); 
+//				printReactor(reactor);
+//		        try {
+//		        	Thread.sleep(500); // sleep/stop a thread for 1 second
+//		        } catch(InterruptedException e) {
+//		        	System.out.println("An Excetion occured: " + e);
+//		        }
+				findPossibleReactors(reactor, row, col, layer + 1, internalRowSize, internalColSize, internalLayerSize);
+				
+				// reset cell back to null if it didn't work
+				reactor.get(layer + 1).get(row).set(col, null); 
 			}
-			
 		}
 		return null;
 	}
@@ -146,25 +183,29 @@ public class calculatorHelper {
 	}
 	
 	public static boolean checkReactorValidity(ArrayList<ArrayList<ArrayList<Block>>> reactor) {
-		boolean valid = false;
+		int totalCells = 0;
+		int totalValid = 0;
 		
 		for (ArrayList<ArrayList<Block>> layer : reactor) {
 			for (ArrayList<Block> row : layer) {
 				for (Block block : row) {
-					
+					totalCells++;
 					if (block == null) {
 						return false;
 					}
 					
-//					if (block.checkComplete() && block.checkIsValid()) {
-//						valid = true;
-//					}
+					if (block.checkComplete()) {
+						totalValid++;
+					}
 					
 				}
 			}
 		}
 		
-		return valid;
+		if (totalCells == totalValid) {
+			return true;
+		}
+		return false;
 	}
 	
 	// checks if the reactor has any null blocks
