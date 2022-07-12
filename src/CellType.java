@@ -11,11 +11,11 @@ public enum CellType {
 	GOLD,		// G
 	GLOWSTONE,
 	ENDERIUM,	// E
-	EMPTY,		// -
+	EMPTY,		// ' ' (space)
 	EMERALD,
 	DIAMOND,	// D
 	CRYOTHEUM,	// C
 	COPPER,
 	CELL,
-	CASING;
+	CASING;		// |
 }

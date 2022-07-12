@@ -16,6 +16,7 @@ public class NCCalculator {
 
 	public void calculate() {
 		reactor = calculatorHelper.fillInitialReactor(reactorLength, reactorWidth, reactorHeight);
+		calculatorHelper.findPossibleReactors(reactor, 1, 0, 1, reactorLength - 2, reactorWidth - 2, reactorHeight - 2);
 		calculatorHelper.printReactor(reactor);
 	}
 
@@ -29,6 +30,7 @@ public class NCCalculator {
 		NCCalculator c = new NCCalculator();
 		System.out.println("Welcome to the reactor configuration calculator for NuclearCraft, specifically in the Enigmatica 2 Expert modpack!");
 		System.out.println("We highly recommend making your reactor a cube (ex. 10x10x10, 8x8x8, 24x24x24).");
+		System.out.println();
 
 		Scanner userInput = new Scanner(System.in);
 		try {
@@ -43,8 +45,9 @@ public class NCCalculator {
 			
 			userInput.close();
 
-			System.out.println("We currently have your reactor as a " + c.reactorLength + "x" + c.reactorWidth + "x" + c.reactorHeight + " reactor");
+			System.out.println();
 			System.out.println("Beginning calculations...");
+			System.out.println();
 		} catch (NumberFormatException e) {
 			System.out.println("That is not a number! Please only enter the number associated with the dimension.");
 			e.printStackTrace();
@@ -54,6 +57,7 @@ public class NCCalculator {
 		c.calculate();
 		long end1 = System.currentTimeMillis();
 		System.out.println("Elapsed Time in milli seconds: " + (end1-start1));
+		System.out.println("Total iterations calculated: " + calculatorHelper.iterations);
 	}
 
 }
